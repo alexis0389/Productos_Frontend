@@ -1,0 +1,54 @@
+<mat-form-field appearance="standard">
+  <mat-label>Buscar Producto ID</mat-label>
+  <input [(ngModel)]="searchField" matInput autocomplete="off" #input type="number">
+  <button *ngIf="searchField" matSuffix mat-icon-button (click)="clearSearchField()" onclick="location.reload()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<button mat-raised-button (click)="buscarProducto()">Buscar</button>
+<button mat-raised-button (click)="crearSalida()">Crear Salida</button>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
+
+    <ng-container matColumnDef="loteId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>LoteId</th>
+      <td mat-cell *matCellDef="let row">{{row.loteId}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="productoId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>productoId</th>
+      <td mat-cell *matCellDef="let row">{{row.productoId}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="cantidad">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Inventario</th>
+      <td mat-cell *matCellDef="let row">{{row.cantidad}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="costo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo</th>
+      <td mat-cell *matCellDef="let row">{{row.costo}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let row">
+        <mat-form-field appearance="standard">
+          <mat-label>Ingrese Cantidad</mat-label>
+          <input min="0" [max]="row.cantidad" [(ngModel)]="row.retiro" matInput type="number" autocomplete="none">
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!--Fila que se muestra cuando no hay datos coincidentes-->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay datos que coincidan con su busqueda "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSize]="8" showFirstLastButtons></mat-paginator>
+</div>
